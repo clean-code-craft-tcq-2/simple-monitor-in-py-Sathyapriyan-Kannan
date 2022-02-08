@@ -13,19 +13,12 @@ class LimitChecker:
         return True
 
 
-def check_limits(temp, soc, charge_rate):
-    if temp.checkLimit() and soc.checkLimit() and charge_rate.checkLimit():
-        return True
-
-
 def battery_is_ok(temperature, soc, charge_rate):
     temp_check = LimitChecker(temperature, PermissibleLimit.temperature_limit)
     soc_check = LimitChecker(soc, PermissibleLimit.soc_limit)
     charge_rate_check = LimitChecker(charge_rate, PermissibleLimit.charge_rate_limit)
 
-    if check_limits(temp_check, soc_check, charge_rate_check) is True:
-        return True
-    return False
+    return temp_check.checkLimit() and soc_check.checkLimit() and charge_rate_check.checkLimit()
 
 
 if __name__ == '__main__':
