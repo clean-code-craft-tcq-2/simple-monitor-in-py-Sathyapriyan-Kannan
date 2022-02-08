@@ -1,18 +1,30 @@
+import BMSManagement as PermissibleLimit
+
+
+class LimitChecker:
+    def __init__(self, input_value, limit):
+        self.input_value = input_value
+        self.limit = limit
+
+    def checkLimit(self):
+        if self.input_value < self.limit.min_threshold or self.input_value > self.limit.max_threshold:
+            return False
+
+        return True
+
 
 def battery_is_ok(temperature, soc, charge_rate):
-  if temperature < 0 or temperature > 45:
-    print('Temperature is out of range!')
-    return False
-  elif soc < 20 or soc > 80:
-    print('State of Charge is out of range!')
-    return False
-  elif charge_rate > 0.8:
-    print('Charge rate is out of range!')
-    return False
 
-  return True
+    temp_check = LimitChecker(temperature, PermissibleLimit.temperature_limit)
+    soc_check = LimitChecker(soc, PermissibleLimit.soc_limit)
+    charge_rate_check = LimitChecker(charge_rate, PermissibleLimit.charge_rate_limit)
+
+    if temp_check.checkLimit() and soc_check.checkLimit() and charge_rate_check.checkLimit():
+        return True
+    return False
 
 
 if __name__ == '__main__':
-  assert(battery_is_ok(25, 70, 0.7) is True)
-  assert(battery_is_ok(50, 85, 0) is False)
+
+    assert (battery_is_ok(25, 70, 0.7) is True)
+    assert (battery_is_ok(50, 85, 0) is False)
