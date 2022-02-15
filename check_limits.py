@@ -21,11 +21,10 @@ class LimitChecker:
         if self.__warn.get_should_issue_warning():
             self.is_warning_issued()
 
-        if self.check_if_not_in_min_threshold_limit() :
-            self.print_breach_alert()
-            return False
+        is_not_in_min_threshold_limit = self.check_if_not_in_min_threshold_limit()
+        is_not_in_max_threshold_limit = self.check_if_not_in_max_threshold_limit()
 
-        if self.check_if_not_in_max_threshold_limit():
+        if is_not_in_min_threshold_limit or is_not_in_max_threshold_limit:
             self.print_breach_alert()
             return False
 
