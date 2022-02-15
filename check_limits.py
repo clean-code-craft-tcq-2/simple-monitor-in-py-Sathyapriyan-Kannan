@@ -17,24 +17,18 @@ class LimitChecker:
     def check_if_not_in_max_threshold_limit(self):
         return self.__input_value > self.__limit.get_max_threshold()
 
-    def check_in_limit(self):
-        is_warning_issued = self.check_for_warnings()
-        if is_warning_issued:
-            return True
+    def check_is_in_limit(self):
+        if self.check_if_not_in_min_threshold_limit() or self.check_if_not_in_max_threshold_limit():
+            self.print_breach_alert()
+            return False
         else:
-            is_not_in_min_threshold_limit = self.check_if_not_in_min_threshold_limit()
-            is_not_in_max_threshold_limit = self.check_if_not_in_max_threshold_limit()
-
-            if is_not_in_min_threshold_limit or is_not_in_max_threshold_limit:
-                self.print_breach_alert()
-                return False
-            else:
-                return True
+            self.check_for_warnings()
+            return True
 
     def check_for_warnings(self):
         if self.__warn.get_should_issue_warning():
-            return self.check_and_issue_warnings()
-        return False
+            self.check_and_issue_warnings()
+        pass
 
     def check_if_not_in_min_warning_limit(self):
         return self.__limit.get_min_threshold() <= self.__input_value <= self.__warn.get_min_warn_tolerance()
@@ -63,8 +57,8 @@ def battery_is_ok(temperature, soc, charge_rate):
     soc_check = LimitChecker(soc, PermissibleLimit.soc_limit, WarningAlert.warn_soc)
     charge_rate_check = LimitChecker(charge_rate, PermissibleLimit.charge_rate_limit, WarningAlert.warn_charge_rate)
 
-    isTemperatureInRange = temp_check.check_in_limit()
-    isSocInRange = soc_check.check_in_limit()
-    isChargeRateInRange = charge_rate_check.check_in_limit()
+    isTemperatureInRange = temp_check.check_is_in_limit()
+    isSocInRange = soc_check.check_is_in_limit()
+    isChargeRateInRange = charge_rate_check.check_is_in_limit()
 
     return isTemperatureInRange and isSocInRange and isChargeRateInRange

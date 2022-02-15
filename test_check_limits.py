@@ -22,9 +22,9 @@ class MyTestCase(unittest.TestCase):
         temp_check = LimitChecker(25, PermissibleLimit.temperature_limit, WarningAlert.warn_temp)
         soc_check = LimitChecker(70, PermissibleLimit.soc_limit, WarningAlert.warn_soc)
         charge_rate_check = LimitChecker(0.7, PermissibleLimit.charge_rate_limit, WarningAlert.warn_charge_rate)
-        self.assertTrue(temp_check.check_in_limit())
-        self.assertTrue(soc_check.check_in_limit())
-        self.assertTrue(charge_rate_check.check_in_limit())
+        self.assertTrue(temp_check.check_is_in_limit())
+        self.assertTrue(soc_check.check_is_in_limit())
+        self.assertTrue(charge_rate_check.check_is_in_limit())
 
         # test above allowed limits
         temp_check2 = LimitChecker(46, PermissibleLimit.temperature_limit, WarningAlert.warn_temp)
@@ -33,9 +33,9 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(46, temp_check2.get_input_value())
         self.assertEqual(81, soc_check2.get_input_value())
         self.assertEqual(0.9, charge_rate_check2.get_input_value())
-        self.assertFalse(temp_check2.check_in_limit())
-        self.assertFalse(soc_check2.check_in_limit())
-        self.assertFalse(charge_rate_check2.check_in_limit())
+        self.assertFalse(temp_check2.check_is_in_limit())
+        self.assertFalse(soc_check2.check_is_in_limit())
+        self.assertFalse(charge_rate_check2.check_is_in_limit())
 
         # test below allowed limits
         temp_check3 = LimitChecker(-1, PermissibleLimit.temperature_limit, WarningAlert.warn_temp)
@@ -44,9 +44,9 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(-1, temp_check3.get_input_value())
         self.assertEqual(19, soc_check3.get_input_value())
         self.assertEqual(-1, charge_rate_check3.get_input_value())
-        self.assertFalse(temp_check3.check_in_limit())
-        self.assertFalse(soc_check3.check_in_limit())
-        self.assertFalse(charge_rate_check3.check_in_limit())
+        self.assertFalse(temp_check3.check_is_in_limit())
+        self.assertFalse(soc_check3.check_is_in_limit())
+        self.assertFalse(charge_rate_check3.check_is_in_limit())
 
     def test_check_for_warning(self):
         temp_check = LimitChecker(2, PermissibleLimit.temperature_limit, WarningAlert.warn_temp)
