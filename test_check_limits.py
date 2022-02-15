@@ -52,25 +52,25 @@ class MyTestCase(unittest.TestCase):
         temp_check = LimitChecker(2, PermissibleLimit.temperature_limit, WarningAlert.warn_temp)
         soc_check = LimitChecker(25, PermissibleLimit.soc_limit, WarningAlert.warn_soc)
         charge_rate_check = LimitChecker(1, PermissibleLimit.charge_rate_limit, WarningAlert.warn_charge_rate)
-        self.assertTrue(temp_check.is_warning_issued())
-        self.assertFalse(soc_check.is_warning_issued())
-        self.assertFalse(charge_rate_check.is_warning_issued())
+        self.assertTrue(temp_check.check_and_issue_warnings())
+        self.assertFalse(soc_check.check_and_issue_warnings())
+        self.assertFalse(charge_rate_check.check_and_issue_warnings())
 
         # test above warning limits
         temp_check = LimitChecker(42.76, PermissibleLimit.temperature_limit, WarningAlert.warn_temp)
         soc_check = LimitChecker(77, PermissibleLimit.soc_limit, WarningAlert.warn_soc)
         charge_rate_check = LimitChecker(0.77, PermissibleLimit.charge_rate_limit, WarningAlert.warn_charge_rate)
-        self.assertTrue(temp_check.is_warning_issued())
-        self.assertTrue(soc_check.is_warning_issued())
-        self.assertTrue(charge_rate_check.is_warning_issued())
+        self.assertTrue(temp_check.check_and_issue_warnings())
+        self.assertTrue(soc_check.check_and_issue_warnings())
+        self.assertTrue(charge_rate_check.check_and_issue_warnings())
 
         # test below warning limits
         temp_check = LimitChecker(2.24, PermissibleLimit.temperature_limit, WarningAlert.warn_temp)
         soc_check = LimitChecker(23, PermissibleLimit.soc_limit, WarningAlert.warn_soc)
         charge_rate_check = LimitChecker(0.039, PermissibleLimit.charge_rate_limit, WarningAlert.warn_charge_rate)
-        self.assertTrue(temp_check.is_warning_issued())
-        self.assertTrue(soc_check.is_warning_issued())
-        self.assertTrue(charge_rate_check.is_warning_issued())
+        self.assertTrue(temp_check.check_and_issue_warnings())
+        self.assertTrue(soc_check.check_and_issue_warnings())
+        self.assertTrue(charge_rate_check.check_and_issue_warnings())
 
 
 if __name__ == '__main__':
