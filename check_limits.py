@@ -11,33 +11,37 @@ class LimitChecker:
     def get_input_value(self):
         return self.__input_value
 
-    def is_not_in_min_threshold_limit(self):
+    def check_if_not_in_min_threshold_limit(self):
         return self.__input_value < self.__limit.get_min_threshold()
 
-    def is_not_in_max_threshold_limit(self):
+    def check_if_not_in_max_threshold_limit(self):
         return self.__input_value > self.__limit.get_max_threshold()
 
     def check_in_limit(self):
         if self.__warn.get_should_issue_warning():
             self.is_warning_issued()
 
-        if self.is_not_in_min_threshold_limit() or self.is_not_in_max_threshold_limit():
+        if self.check_if_not_in_min_threshold_limit() :
+            self.print_breach_alert()
+            return False
+
+        if self.check_if_not_in_max_threshold_limit():
             self.print_breach_alert()
             return False
 
         return True
 
-    def is_not_in_min_warning_limit(self):
+    def check_if_not_in_min_warning_limit(self):
         return self.__limit.get_min_threshold() <= self.__input_value <= self.__warn.get_min_warn_tolerance()
 
-    def is_not_in_max_warning_limit(self):
+    def check_if_not_in_max_warning_limit(self):
         return self.__warn.get_max_warn_tolerance() <= self.__input_value <= self.__limit.get_max_threshold()
 
     def is_warning_issued(self):
-        if self.is_not_in_min_warning_limit():
+        if self.check_if_not_in_min_warning_limit():
             self.print_warning_alert(self.__warn.get_min_warn_alert_message())
             return True
-        if self.is_not_in_max_warning_limit():
+        if self.check_if_not_in_max_warning_limit():
             self.print_warning_alert(self.__warn.get_max_warn_alert_message())
             return True
         return False
