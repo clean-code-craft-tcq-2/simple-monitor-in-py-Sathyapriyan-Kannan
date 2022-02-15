@@ -1,4 +1,4 @@
-from BMSManagement import temperature_limit, soc_limit, charge_rate_limit
+from BMSManagement import temperature_limit, soc_limit, charge_rate_limit,lang
 
 
 class WarningAlert:
@@ -29,17 +29,33 @@ class WarningAlert:
         return self.__max_warn_alert_message
 
 
+temp_warning_message = {'EN': {'min_warning_msg': "Warning: Approaching lower Temperature",
+                               'max_warning_msg': "Warning: Approaching peak Temperature"},
+                        'DE': {'min_warning_msg': "Warnung: Annäherung an untere Temperatur",
+                               'max_warning_msg': "Warnung vor nahender Spitzentemperatur"}
+                        }
+soc_warning_message = {'EN': {'min_warning_msg': "Warning: Approaching discharge",
+                              'max_warning_msg': "Warning: Approaching charge-peak"},
+                       'DE': {'min_warning_msg': "Warnung: vor nahender Entladung",
+                              'max_warning_msg': "Warnung: Annäherung an Ladespitze"}
+                       }
+charge_rate_warning_message = {'EN': {'min_warning_msg': "Warning: Approaching lower Charge Rate",
+                                      'max_warning_msg': "Warning: Approaching peak Charge Rate"},
+                               'DE': {'min_warning_msg': "Warnung: Annäherung an die niedrigere Laderate",
+                                      'max_warning_msg': "Warnung: Annäherung an Spitzenladungsrate"}
+                               }
+
 warn_temp = WarningAlert({'issue_warning': True, 'warning_tolerance_rate': 5,
-                          'min_warning_msg': "Warning: Approaching lower Temperature",
-                          'max_warning_msg': "Warning: Approaching peak Temperature"},
+                          'min_warning_msg': temp_warning_message[lang]['min_warning_msg'],
+                          'max_warning_msg': temp_warning_message[lang]['max_warning_msg']},
                          temperature_limit)
 
 warn_soc = WarningAlert({'issue_warning': True, 'warning_tolerance_rate': 5,
-                         'min_warning_msg': "Warning: Approaching discharge",
-                         'max_warning_msg': "Warning: Approaching charge-peak"},
+                         'min_warning_msg': soc_warning_message[lang]['min_warning_msg'],
+                         'max_warning_msg': soc_warning_message[lang]['max_warning_msg']},
                         soc_limit)
 
 warn_charge_rate = WarningAlert({'issue_warning': True, 'warning_tolerance_rate': 5,
-                                 'min_warning_msg': "Warning: Approaching lower Charge Rate",
-                                 'max_warning_msg': "Warning: Approaching peak Charge Rate"},
+                                 'min_warning_msg': charge_rate_warning_message[lang]['min_warning_msg'],
+                                 'max_warning_msg': charge_rate_warning_message[lang]['max_warning_msg']},
                                 charge_rate_limit)

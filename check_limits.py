@@ -46,7 +46,7 @@ class LimitChecker:
         return False
 
     def print_breach_alert(self):
-        print(f'{self.__limit.get_factor()} is out of range!')
+        print(f'{self.__limit.get_factor()} {self.__limit.get_alert_msg()}')
 
     def print_warning_alert(self, warn_message):
         print(f'{warn_message}')
